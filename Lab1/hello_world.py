@@ -1,16 +1,8 @@
-import arviz as az
 import matplotlib.pyplot as plt
 
 import numpy as np
 
 import pymc3 as pm
-
-import pandas as pd
-
-from scipy import stats
-from scipy.optimize import curve_fit
-from scipy import asarray as ar,exp
-
 
 # Generating data
 # True parameter values
