@@ -5,10 +5,17 @@ import numpy as np
 
 import pymc3 as pm
 
+import pandas as pd
+
+from scipy import stats
+from scipy.optimize import curve_fit
+from scipy import asarray as ar,exp
+
 
 # Generating data
 # True parameter values
-alpha, sigma = 1, 1
+alpha, sigma, mu = 1, 1, 0
+sigma2 = 2
 beta = [1, 2.5]
 
 # Size of dataset
@@ -17,17 +24,21 @@ size = 100
 # Predictor variable
 X1 = np.random.randn(size)
 X2 = np.random.randn(size) * 0.2
+X3 = np.random.normal(mu, sigma2, size)
 
 # Simulate outcome variable
 Y = alpha + beta[0] * X1 + beta[1] * X2 + np.random.randn(size) * sigma
+Y2 = 1/(sigma2 * np.sqrt(2 * np.pi)) * np.exp( - (X3 - mu)**2 / (2 * sigma2**2) )
 
 # Vizualize the data
-fig, axes = plt.subplots(1, 2, sharex=True, figsize=(10, 4))
+fig, axes = plt.subplots(1, 3, sharex=True, figsize=(10, 4))
 axes[0].scatter(X1, Y, alpha=0.6)
 axes[1].scatter(X2, Y, alpha=0.6)
+axes[2].scatter(X3, Y2, alpha=0.6)
 axes[0].set_ylabel("Y")
 axes[0].set_xlabel("X1")
 axes[1].set_xlabel("X2")
+axes[2].set_xlabel("X3")
 plt.show()
 
 # Define a model
