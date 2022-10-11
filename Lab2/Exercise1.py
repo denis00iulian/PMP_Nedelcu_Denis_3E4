@@ -1,17 +1,28 @@
 import numpy as np
-from scipy import stats
-
 import matplotlib.pyplot as plt
-import arviz as az
+import random
+
+def chooseMechanic():
+    randValue = random.random()
+    if randValue < 0.4:
+        return 'first'
+    else:
+        return 'second'
 
 np.random.seed(1)
 
 firstMechanicAlpha = 4
-firstMechanicTime = stats.expon.rvs(scale = 1 / firstMechanicAlpha, size = 10000)
 secondMechanicAlpha = 6
-secondMechanicTime = stats.expon.rvs(scale = 1 / secondMechanicAlpha, size = 10000)
-            
+n = 10000
+r_values = list(range(n))
+X = []
+for i in range(n):
+    if chooseMechanic() == 'first':
+        X.append(np.random.exponential(scale=1/firstMechanicAlpha))
+    else:
+        X.append(np.random.exponential(scale=1/secondMechanicAlpha))
 
-
-az.plot_posterior({'x':firstMechanicTime,'y':secondMechanicTime}) # Afisarea aproximarii densitatii probabilitatilor, mediei, intervalului etc. variabilelor x,y,z
+print("Mean =", np.mean(X), "\nStd =", np.std(X))
+fig, ax = plt.subplots(1, 1)
+ax.bar(r_values, X)
 plt.show() 
